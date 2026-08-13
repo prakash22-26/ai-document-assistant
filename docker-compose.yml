@@ -1,0 +1,11 @@
+services:
+  ai-document-assistant:
+    build: .
+    ports:
+      - "8501:10000"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./chroma_db:/app/chroma_db
+    restart: unless-stopped
