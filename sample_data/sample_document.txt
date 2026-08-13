@@ -1,0 +1,44 @@
+Customer Segmentation and Revenue Forecasting in E-Commerce: A Case Study
+
+Abstract
+This paper investigates whether customer segmentation improves the accuracy
+of revenue forecasting for an online retail business. We combine clustering
+techniques with time-series forecasting to test this hypothesis.
+
+1. Introduction and Objective
+The main objective of this research was to analyze customer purchasing
+patterns and improve revenue forecasting for an e-commerce platform. Prior
+work has treated all customers as a single homogeneous group when
+forecasting revenue, which we hypothesize loses important signal.
+
+2. Dataset
+We used the Online Retail dataset, a publicly available transactional
+dataset from a UK-based online retailer. The dataset contained
+approximately 500,000 transaction records spanning December 2010 to
+December 2011, including invoice number, product code, quantity, invoice
+date, unit price, customer ID, and country.
+
+3. Methodology
+Our methodology used a combination of clustering and time-series
+forecasting. We first applied K-means clustering to group customers into
+segments based on recency, frequency, and monetary value (RFM analysis).
+We then trained a separate time-series forecasting model (SARIMA) for each
+customer segment and compared the aggregated forecast to a single
+non-segmented baseline model.
+
+4. Results
+The segmented forecasting approach reduced mean absolute percentage error
+(MAPE) by 14% compared to the non-segmented baseline. High-value customer
+segments showed the most predictable purchasing cycles, while low-frequency
+segments contributed most of the forecasting error in both models.
+
+5. Conclusion
+Customer segmentation improved forecast accuracy. We conclude that
+treating customer segments separately, rather than forecasting revenue in
+aggregate, produces measurably better forecasts and is a low-cost
+improvement for e-commerce businesses already collecting transaction data.
+
+6. Limitations
+This study used data from a single retailer in a single country, so
+results may not generalize to other markets. Future work should test this
+approach on a more diverse dataset.

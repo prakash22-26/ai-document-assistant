@@ -1,0 +1,625 @@
+{
+  "document": "warehouse.pdf",
+  "total_questions": 31,
+  "retrieval_questions": 30,
+  "retrieval": {
+    "recall_at_k_pct": 93.33,
+    "precision_at_k_pct": 23.33,
+    "hit_at_k_pct": 93.33,
+    "mrr": 0.8167
+  },
+  "results": [
+    {
+      "question": "What is the roll number of the author of the project report?",
+      "expected_answer": "B220022CS",
+      "relevant_chunk_ids": [
+        "chunk_0001"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0001",
+        "chunk_0002",
+        "chunk_0003",
+        "chunk_0004"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0001"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "Who is thanked for providing valuable guidance, encouragement, and constant support throughout the course of the project?",
+      "expected_answer": "Dr. Krishna Kumar, Assistant Professor, Department of Computer Science and Engineering, National Institute of Technology Sikkim",
+      "relevant_chunk_ids": [
+        "chunk_0005"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0005",
+        "chunk_0006",
+        "chunk_0007",
+        "chunk_0009"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0005"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "On which page does the section 'Performance Comparison and Result Analysis' appear?",
+      "expected_answer": "31",
+      "relevant_chunk_ids": [
+        "chunk_0009"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0104",
+        "chunk_0009",
+        "chunk_0102",
+        "chunk_0012"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0009"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 0.5
+    },
+    {
+      "question": "What does GAT stand for?",
+      "expected_answer": "Graph Attention Network",
+      "relevant_chunk_ids": [
+        "chunk_0013"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0013",
+        "chunk_0122",
+        "chunk_0113",
+        "chunk_0043"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0013"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "What can transaction data show?",
+      "expected_answer": "How often products are purchased jointly and what is the relationship between products.",
+      "relevant_chunk_ids": [
+        "chunk_0018"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0018",
+        "chunk_0049",
+        "chunk_0065",
+        "chunk_0029"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0018"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "What do most existing storage assignment methods mainly focus on?",
+      "expected_answer": "product demand, sales frequency, or inventory turnover",
+      "relevant_chunk_ids": [
+        "chunk_0022"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0022",
+        "chunk_0035",
+        "chunk_0023",
+        "chunk_0056"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0022"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "What is needed after product relationships have been established?",
+      "expected_answer": "Storage assignment strategies for the products.",
+      "relevant_chunk_ids": [
+        "chunk_0026"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0026",
+        "chunk_0041",
+        "chunk_0022",
+        "chunk_0072"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0026"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "What is the purpose of combining Graph Neural Networks and Collaborative Filtering in the described system?",
+      "expected_answer": "to combine the knowledge gained through Graph Neural Networks and Collaborative Filtering into a single representation of the relationships between the products.",
+      "relevant_chunk_ids": [
+        "chunk_0030"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0033",
+        "chunk_0088",
+        "chunk_0106",
+        "chunk_0015"
+      ],
+      "relevant_retrieved_chunk_ids": [],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_at_k": 0.0,
+      "mrr": 0.0
+    },
+    {
+      "question": "What factors do conventional strategies for storage allocation take into account?",
+      "expected_answer": "product demands, inventory turnover rate, clustering, and product associations",
+      "relevant_chunk_ids": [
+        "chunk_0035"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0035",
+        "chunk_0025",
+        "chunk_0026",
+        "chunk_0040"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0035"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "What are the main existing methodologies for improving warehouse performance mentioned in the chunk?",
+      "expected_answer": "demand analysis, clustering algorithms, association rules mining, routing optimization, and machine-learning-based decision-making.",
+      "relevant_chunk_ids": [
+        "chunk_0039"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0056",
+        "chunk_0044",
+        "chunk_0040",
+        "chunk_0064"
+      ],
+      "relevant_retrieved_chunk_ids": [],
+      "recall_at_k": 0.0,
+      "precision_at_k": 0.0,
+      "hit_at_k": 0.0,
+      "mrr": 0.0
+    },
+    {
+      "question": "Which authors employed GNNs for the recommendation of suppliers in large supply chains?",
+      "expected_answer": "Tu et al. [9]",
+      "relevant_chunk_ids": [
+        "chunk_0043"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0043",
+        "chunk_0048",
+        "chunk_0128",
+        "chunk_0039"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0043"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "Which study proposed a framework to jointly optimize order batching and picker routing problems in robotic warehouses?",
+      "expected_answer": "Li et al. [6]",
+      "relevant_chunk_ids": [
+        "chunk_0047"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0047",
+        "chunk_0038",
+        "chunk_0043",
+        "chunk_0114"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0047"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "Which paper combined supervised learning and tree-search methods for real-time storage allocation?",
+      "expected_answer": "Liu et al. (2022)",
+      "relevant_chunk_ids": [
+        "chunk_0052"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0037",
+        "chunk_0052",
+        "chunk_0127",
+        "chunk_0047"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0052"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 0.5
+    },
+    {
+      "question": "What method is suggested for optimizing the storage process in a warehouse?",
+      "expected_answer": "Graph Neural Networks together with Collaborative Filtering",
+      "relevant_chunk_ids": [
+        "chunk_0056"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0056",
+        "chunk_0044",
+        "chunk_0015",
+        "chunk_0028"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0056"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "What types of invalid transactions are excluded during preprocessing?",
+      "expected_answer": "cancelled orders, missing customer identifiers, and records with negative or zero quantity values.",
+      "relevant_chunk_ids": [
+        "chunk_0060"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0066",
+        "chunk_0060",
+        "chunk_0065",
+        "chunk_0067"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0060"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 0.5
+    },
+    {
+      "question": "Which invoices were excluded from the dataset?",
+      "expected_answer": "Cancelled invoices",
+      "relevant_chunk_ids": [
+        "chunk_0065"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0066",
+        "chunk_0065",
+        "chunk_0060",
+        "chunk_0068"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0065"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 0.5
+    },
+    {
+      "question": "How is the lifecycle duration of each SKU computed?",
+      "expected_answer": "Lifecycle duration = LastDate - FirstDate + 1",
+      "relevant_chunk_ids": [
+        "chunk_0069"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0069",
+        "chunk_0060",
+        "chunk_0061",
+        "chunk_0070"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0069"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "What does the variable w_{ij} represent in the co-purchase relationship formula?",
+      "expected_answer": "The co-purchase frequency between products i and j.",
+      "relevant_chunk_ids": [
+        "chunk_0073"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0073",
+        "chunk_0077",
+        "chunk_0074",
+        "chunk_0081"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0073"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "How is the edge weight between products i and j calculated in the generated graph?",
+      "expected_answer": "The edge weight wi j is calculated as the sum over all orders k of the indicator I(i,j∈Order k), which returns 1 if both products appear in the same invoice.",
+      "relevant_chunk_ids": [
+        "chunk_0077"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0077",
+        "chunk_0073",
+        "chunk_0062",
+        "chunk_0061"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0077"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "What does ˜A represent in the equation?",
+      "expected_answer": "The adjacency matrix with self-loops.",
+      "relevant_chunk_ids": [
+        "chunk_0082"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0082",
+        "chunk_0093",
+        "chunk_0086",
+        "chunk_0081"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0082"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "What does the variable n represent in the User-Item Interaction Matrix?",
+      "expected_answer": "the number of SKUs",
+      "relevant_chunk_ids": [
+        "chunk_0086"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0086",
+        "chunk_0074",
+        "chunk_0063",
+        "chunk_0070"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0086"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "What percentage improvement did the Hybrid model achieve over Agglomerative Hierarchical Clustering (AHC)?",
+      "expected_answer": "11.53%",
+      "relevant_chunk_ids": [
+        "chunk_0090"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0090",
+        "chunk_0106",
+        "chunk_0107",
+        "chunk_0094"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0090"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "What is the silhouette score for the GCN method?",
+      "expected_answer": "0.4202",
+      "relevant_chunk_ids": [
+        "chunk_0094"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0083",
+        "chunk_0094",
+        "chunk_0107",
+        "chunk_0062"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0094"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 0.5
+    },
+    {
+      "question": "What are the three picking strategies evaluated in the proposed framework?",
+      "expected_answer": "Discrete Picking, Batch Picking, Zone Picking",
+      "relevant_chunk_ids": [
+        "chunk_0099"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0099",
+        "chunk_0098",
+        "chunk_0103",
+        "chunk_0102"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0099"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "Which routing methods are used in the evaluation?",
+      "expected_answer": "S-Shape and Midpoint routing methods.",
+      "relevant_chunk_ids": [
+        "chunk_0103"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0103",
+        "chunk_0099",
+        "chunk_0098",
+        "chunk_0009"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0103"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "Which framework achieved the lowest picker travel distance in all six simulation scenarios?",
+      "expected_answer": "The Hybrid framework",
+      "relevant_chunk_ids": [
+        "chunk_0107"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0107",
+        "chunk_0102",
+        "chunk_0104",
+        "chunk_0100"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0107"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "Which factors are mentioned as affecting the system?",
+      "expected_answer": "storage capacity constraints, replenishment requirements, product characteristics, distribution of workload among the pickers, and aisle congestion",
+      "relevant_chunk_ids": [
+        "chunk_0111"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0111",
+        "chunk_0123",
+        "chunk_0114",
+        "chunk_0112"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0111"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "What is the purpose of the Hybrid Graph Convolutional Network and Collaborative Filtering (GCN+CF) based warehouse storage optimization framework introduced in this chapter?",
+      "expected_answer": "It is aimed to minimize the picker travel distance and enhance the warehouse operational efficiency.",
+      "relevant_chunk_ids": [
+        "chunk_0116"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0119",
+        "chunk_0116",
+        "chunk_0014",
+        "chunk_0059"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0116"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 0.5
+    },
+    {
+      "question": "Which approach achieved lower picker travel distances than both Agglomerative Hierarchical Clustering and the standalone GNN-based approach in all scenarios tested?",
+      "expected_answer": "Hybrid (GCN+CF) approach",
+      "relevant_chunk_ids": [
+        "chunk_0120"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0107",
+        "chunk_0120",
+        "chunk_0064",
+        "chunk_0090"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0120"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 0.5
+    },
+    {
+      "question": "What type of optimization approaches could be examined as a possible direction of further study?",
+      "expected_answer": "Examining the multi-objective optimization approaches considering several performance criteria at once.",
+      "relevant_chunk_ids": [
+        "chunk_0124"
+      ],
+      "retrieved_chunk_ids": [
+        "chunk_0124",
+        "chunk_0123",
+        "chunk_0047",
+        "chunk_0048"
+      ],
+      "relevant_retrieved_chunk_ids": [
+        "chunk_0124"
+      ],
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.25,
+      "hit_at_k": 1.0,
+      "mrr": 1.0
+    },
+    {
+      "question": "Who is the president of the United States?",
+      "expected_answer": "NOT_IN_DOCUMENT",
+      "relevant_chunk_ids": [],
+      "retrieved_chunk_ids": [
+        "chunk_0006",
+        "chunk_0007",
+        "chunk_0005",
+        "chunk_0003"
+      ],
+      "relevant_retrieved_chunk_ids": [],
+      "recall_at_k": null,
+      "precision_at_k": 0.0,
+      "hit_at_k": null,
+      "mrr": null
+    }
+  ]
+}
