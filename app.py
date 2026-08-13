@@ -7,7 +7,7 @@ from src.chatbot import Assistant
 from src.document_loader import DocumentLoadError
 from src.llm import LLMConfigError, friendly_error_message
 
-st.set_page_config(page_title="AI Document Assistant", page_icon="None", layout="centered")
+st.set_page_config(page_title="AI Document Assistant", page_icon=None, layout="centered")
 
 
 @st.cache_resource
