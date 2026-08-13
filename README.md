@@ -146,7 +146,6 @@ most relevant chunks for the final LLM context.
 | CrossEncoder | Reranking |
 | Groq | LLM |
 | FastAPI | Optional API |
-| Docker | Deployment |
 | pytest | Testing |
 
 ## Configuration
@@ -207,31 +206,6 @@ Optional API:
 uvicorn api:app --reload
 ```
 
-## Docker
-
-```bash
-docker compose build
-docker compose up
-```
-
-Open:
-
-```text
-http://localhost:8501
-```
-
-Check:
-
-```bash
-docker compose ps
-```
-
-Stop:
-
-```bash
-docker compose down
-```
-
 ## Testing
 
 ```bash
@@ -272,8 +246,6 @@ ai-document-assistant/
 ├── tests/
 ├── app.py
 ├── api.py
-├── Dockerfile
-├── docker-compose.yml
 ├── requirements.txt
 └── README.md
 ```
