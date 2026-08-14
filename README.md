@@ -1,4 +1,4 @@
-# 🤖 AI Document Assistant
+#  AI Document Assistant
 
 ### Conversational RAG for Intelligent PDF Understanding
 
@@ -6,7 +6,8 @@
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github&logoColor=white)](https://github.com/prakash22-26/ai-document-assistant)
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.38-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
-[![LangGraph](https://img.shields.io/badge/LangGraph-RAG-1C3C3C)](https://www.langchain.com/langgraph)
+[![LangChain](https://img.shields.io/badge/LangChain-Framework-1C3C3C)](https://www.langchain.com/)
+[![LangGraph](https://img.shields.io/badge/LangGraph-Workflow-1C3C3C)](https://www.langchain.com/langgraph)
 [![ChromaDB](https://img.shields.io/badge/ChromaDB-Vector_DB-FF6F61)](https://www.trychroma.com/)
 [![HuggingFace](https://img.shields.io/badge/HuggingFace-Embeddings-FFD21E?logo=huggingface&logoColor=black)](https://huggingface.co/)
 [![Groq](https://img.shields.io/badge/Groq-LLM-F55036)](https://groq.com/)
@@ -555,7 +556,6 @@ I couldn't find this information in the uploaded document.
 | **Groq** | LLM inference |
 | **FastAPI** | Optional REST API |
 | **pytest** | Automated testing |
-| **Docker** | Optional containerization |
 | **Git/GitHub** | Version control |
 
 ---
@@ -604,8 +604,6 @@ ai-document-assistant/
 │
 ├── api.py
 ├── app.py
-├── Dockerfile
-├── docker-compose.yml
 ├── pytest.ini
 ├── requirements.txt
 └── README.md
@@ -886,42 +884,6 @@ GET  /health
 
 ---
 
-# 🐳 Docker
-
-Docker is optional.
-
-Build:
-
-```bash
-docker compose build
-```
-
-Run:
-
-```bash
-docker compose up
-```
-
-Open:
-
-```text
-http://localhost:8501
-```
-
-Check:
-
-```bash
-docker compose ps
-```
-
-Stop:
-
-```bash
-docker compose down
-```
-
----
-
 # 🎯 Use Cases
 
 ### 🎓 Academic
@@ -999,7 +961,6 @@ This project demonstrates practical implementation of:
 - Map-Reduce summarization
 - FastAPI
 - Streamlit
-- Docker
 - Unit testing
 - RAG evaluation
 - Git/GitHub workflows
