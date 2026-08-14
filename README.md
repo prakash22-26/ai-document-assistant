@@ -34,7 +34,6 @@
 - [🧪 Testing](#-testing)
 - [📊 Evaluation](#-evaluation)
 - [🌐 FastAPI API](#-fastapi-api)
-- [🐳 Docker](#-docker)
 - [🎯 Use Cases](#-use-cases)
 - [⚠️ Limitations](#️-limitations)
 - [🚀 Future Improvements](#-future-improvements)
