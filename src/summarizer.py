@@ -30,7 +30,7 @@ from src.prompts import (
 #
 # 18,000 characters is roughly a few thousand tokens, leaving
 # room for the prompt and model response.
-SINGLE_CALL_CHAR_LIMIT = 18_000
+SINGLE_CALL_CHAR_LIMIT = 15_000
 
 
 # For large documents, several chunks are combined into one
@@ -38,12 +38,12 @@ SINGLE_CALL_CHAR_LIMIT = 18_000
 #
 # Do NOT make this extremely large because the LLM provider
 # has token-per-minute and request-size limits.
-MAP_BATCH_CHAR_LIMIT = 7_000
+MAP_BATCH_CHAR_LIMIT = 5_000
 
 
 # Maximum amount of intermediate summary text sent to the
 # final reduce call.
-REDUCE_CHAR_LIMIT = 10_000
+REDUCE_CHAR_LIMIT = 6_000
 
 
 # ============================================================
