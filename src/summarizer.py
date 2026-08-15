@@ -1,14 +1,16 @@
 """
-Document summarization.
+Fast document summarization.
 
 Short documents:
-    Full document -> one LLM call -> final summary
+    Full document -> 1 LLM call
 
 Long documents:
-    Chunks -> batched summaries -> final reduce -> summary
+    Representative document sections -> 2 LLM calls
+    -> 1 final reduce call
 
-The batching is specifically designed to reduce the number
-of LLM calls and avoid hitting provider rate limits.
+The number of LLM calls is deliberately bounded so that
+large PDFs do not become extremely slow or hit Groq
+rate limits.
 """
 
 from __future__ import annotations
@@ -16,328 +18,178 @@ from __future__ import annotations
 from src.chunking import Chunk
 from src.llm import invoke_with_retry
 from src.prompts import (
-    MAP_SUMMARY_PROMPT,
     REDUCE_SUMMARY_PROMPT,
     SUMMARY_PROMPT,
 )
 
+# ---------------------------------------------------------
+# Configuration
+# ---------------------------------------------------------
 
-# =============================================================
-# CONFIGURATION
-# =============================================================
+# Small documents are summarized directly.
+SHORT_DOCUMENT_LIMIT = 8000
 
-# Documents smaller than this use one LLM request.
-LONG_DOCUMENT_CHAR_THRESHOLD = 6000
+# Maximum characters sent to each map call.
+MAP_INPUT_LIMIT = 6500
 
-# Maximum approximate amount of source text sent in one
-# map-summary request.
-MAP_BATCH_CHAR_LIMIT = 4500
-
-# Maximum approximate size of intermediate summaries
-# sent to a reduce request.
-REDUCE_BATCH_CHAR_LIMIT = 6000
-
-# Pause between map requests.
-#
-# This is intentionally conservative for free-tier providers.
-# It reduces the chance of sending many requests in a burst.
-MAP_REQUEST_DELAY = 2.0
+# Maximum number of map calls.
+# Therefore maximum total summary calls = 3.
+MAX_MAP_CALLS = 2
 
 
-# =============================================================
-# CREATE BATCHES
-# =============================================================
+# ---------------------------------------------------------
+# Build representative document sections
+# ---------------------------------------------------------
 
-def _make_batches(
-    texts: list[str],
-    max_chars: int,
-) -> list[list[str]]:
-    """
-    Group text pieces into batches.
-
-    Example:
-
-        chunk1
-        chunk2
-        chunk3
-             ↓
-        batch 1
-
-        chunk4
-        chunk5
-             ↓
-        batch 2
-    """
-
-    batches: list[list[str]] = []
-
-    current_batch: list[str] = []
-    current_length = 0
-
-    for text in texts:
-
-        text = text.strip()
-
-        if not text:
-            continue
-
-        text_length = len(text)
-
-        # If adding this text would make the batch
-        # too large, close the current batch.
-        if (
-            current_batch
-            and current_length + text_length
-            > max_chars
-        ):
-
-            batches.append(
-                current_batch
-            )
-
-            current_batch = []
-            current_length = 0
-
-        current_batch.append(text)
-        current_length += text_length
-
-    if current_batch:
-        batches.append(
-            current_batch
-        )
-
-    return batches
-
-
-# =============================================================
-# MAP STEP
-# =============================================================
-
-def _map_summaries(
-    llm,
+def _select_representative_chunks(
     chunks: list[Chunk],
 ) -> list[str]:
     """
-    Create partial summaries.
+    Select representative chunks from the document.
 
-    Instead of:
+    Instead of sending every chunk to the LLM, select
+    chunks distributed throughout the document.
 
-        chunk -> LLM
-        chunk -> LLM
-        chunk -> LLM
-        ...
-
-    we do:
-
-        chunk + chunk + chunk -> LLM
-        chunk + chunk + chunk -> LLM
-        ...
+    This keeps summarization fast for large PDFs.
     """
 
-    if not chunks:
-        return []
-
-    texts = [
+    valid_chunks = [
         chunk.text.strip()
         for chunk in chunks
         if chunk.text.strip()
     ]
 
+    if not valid_chunks:
+        return []
+
+    # If the document is already small, keep everything.
+    total_chars = sum(
+        len(text)
+        for text in valid_chunks
+    )
+
+    if total_chars <= MAP_INPUT_LIMIT * MAX_MAP_CALLS:
+        return valid_chunks
+
+    # Select chunks distributed across the document.
+    selected = []
+
+    step = len(valid_chunks) / (
+        MAX_MAP_CALLS * 5
+    )
+
+    index = 0.0
+
+    while (
+        int(index) < len(valid_chunks)
+        and len(selected) < MAX_MAP_CALLS * 5
+    ):
+        selected.append(
+            valid_chunks[int(index)]
+        )
+        index += step
+
+    return selected
+
+
+# ---------------------------------------------------------
+# Create map batches
+# ---------------------------------------------------------
+
+def _create_map_batches(
+    texts: list[str],
+) -> list[str]:
+    """
+    Create at most MAX_MAP_CALLS batches.
+    """
+
     if not texts:
         return []
 
-    batches = _make_batches(
-        texts,
-        MAP_BATCH_CHAR_LIMIT,
+    # First create a single combined document.
+    combined = "\n\n".join(texts)
+
+    # If it fits into one request, use one call.
+    if len(combined) <= MAP_INPUT_LIMIT:
+        return [combined]
+
+    # Split approximately evenly between the
+    # maximum number of LLM calls.
+    target_size = min(
+        MAP_INPUT_LIMIT,
+        len(combined) // MAX_MAP_CALLS + 1,
     )
 
-    print(
-        f"[summary] Created "
-        f"{len(batches)} summary batches "
-        f"from {len(chunks)} chunks."
-    )
+    batches = []
 
-    summaries: list[str] = []
+    current = []
 
-    import time
+    current_length = 0
 
-    for index, batch in enumerate(
-        batches,
-        start=1,
-    ):
+    for text in texts:
 
-        combined_text = "\n\n".join(
-            batch
-        )
-
-        prompt = MAP_SUMMARY_PROMPT.format(
-            text=combined_text
-        )
-
-        print(
-            f"[summary] Processing map batch "
-            f"{index}/{len(batches)}..."
-        )
-
-        result = invoke_with_retry(
-            llm,
-            prompt,
-        )
-
-        summary = result.content.strip()
-
-        if summary:
-            summaries.append(
-                summary
-            )
-
-        # Small pause between requests.
-        #
-        # This is NOT a replacement for retry handling.
-        # It simply prevents an immediate burst of requests.
-        if index < len(batches):
-            time.sleep(
-                MAP_REQUEST_DELAY
-            )
-
-    return summaries
-
-
-# =============================================================
-# REDUCE STEP
-# =============================================================
-
-def _reduce_summaries(
-    llm,
-    summaries: list[str],
-) -> str:
-    """
-    Combine partial summaries into one final summary.
-
-    If all summaries fit into one request:
-
-        partial summaries
-              ↓
-          final LLM call
-
-    Otherwise:
-
-        partial summaries
-              ↓
-        smaller reductions
-              ↓
-        final reduction
-    """
-
-    if not summaries:
-
-        return (
-            "## Overview\n"
-            "No summary could be generated."
-        )
-
-    current = summaries
-
-    while True:
-
-        batches = _make_batches(
-            current,
-            REDUCE_BATCH_CHAR_LIMIT,
-        )
-
-        # -----------------------------------------------------
-        # Everything fits into one final request.
-        # -----------------------------------------------------
-
-        if len(batches) == 1:
-
-            combined = "\n\n".join(
-                batches[0]
-            )
-
-            prompt = REDUCE_SUMMARY_PROMPT.format(
-                text=combined
-            )
-
-            print(
-                "[summary] Generating final summary..."
-            )
-
-            result = invoke_with_retry(
-                llm,
-                prompt,
-            )
-
-            return result.content.strip()
-
-        # -----------------------------------------------------
-        # Intermediate reduction required.
-        # -----------------------------------------------------
-
-        next_level: list[str] = []
-
-        print(
-            f"[summary] Reducing "
-            f"{len(batches)} groups..."
-        )
-
-        for index, batch in enumerate(
-            batches,
-            start=1,
+        if (
+            current
+            and current_length + len(text)
+            > target_size
         ):
-
-            combined = "\n\n".join(
-                batch
+            batches.append(
+                "\n\n".join(current)
             )
 
-            prompt = REDUCE_SUMMARY_PROMPT.format(
-                text=combined
-            )
+            current = []
+            current_length = 0
 
-            print(
-                f"[summary] Reduce batch "
-                f"{index}/{len(batches)}..."
-            )
+        current.append(text)
+        current_length += len(text)
 
-            result = invoke_with_retry(
-                llm,
-                prompt,
-            )
+    if current:
+        batches.append(
+            "\n\n".join(current)
+        )
 
-            summary = result.content.strip()
+    # Never exceed MAX_MAP_CALLS.
+    if len(batches) > MAX_MAP_CALLS:
 
-            if summary:
-                next_level.append(
-                    summary
+        merged = []
+
+        split_size = (
+            len(batches)
+            // MAX_MAP_CALLS
+        )
+
+        for i in range(MAX_MAP_CALLS):
+
+            start = i * split_size
+
+            if i == MAX_MAP_CALLS - 1:
+                end = len(batches)
+            else:
+                end = (
+                    (i + 1)
+                    * split_size
                 )
 
-        current = next_level
+            merged.append(
+                "\n\n".join(
+                    batches[start:end]
+                )
+            )
+
+        batches = merged
+
+    return batches
 
 
-# =============================================================
-# MAIN SUMMARIZATION FUNCTION
-# =============================================================
+# ---------------------------------------------------------
+# Main summarization
+# ---------------------------------------------------------
 
 def summarize_document(
     llm,
     full_text: str,
     chunks: list[Chunk],
 ) -> str:
-    """
-    Generate a structured document summary.
-
-    Short document:
-        full text -> one LLM call
-
-    Long document:
-        chunks
-          ↓
-        batched map summaries
-          ↓
-        reduce
-          ↓
-        final structured summary
-    """
 
     if not full_text.strip():
 
@@ -347,15 +199,15 @@ def summarize_document(
             "extractable text."
         )
 
-    # =========================================================
+    # =====================================================
     # SHORT DOCUMENT
-    # =========================================================
+    # =====================================================
 
-    if len(full_text) <= LONG_DOCUMENT_CHAR_THRESHOLD:
+    if len(full_text) <= SHORT_DOCUMENT_LIMIT:
 
         print(
-            "[summary] Short document. "
-            "Using one LLM request."
+            "[summary] Short document - "
+            "using 1 LLM call."
         )
 
         prompt = SUMMARY_PROMPT.format(
@@ -369,13 +221,13 @@ def summarize_document(
 
         return result.content.strip()
 
-    # =========================================================
+    # =====================================================
     # LONG DOCUMENT
-    # =========================================================
+    # =====================================================
 
     print(
-        f"[summary] Long document detected: "
-        f"{len(full_text)} characters."
+        f"[summary] Long document: "
+        f"{len(full_text)} characters"
     )
 
     print(
@@ -383,14 +235,80 @@ def summarize_document(
         f"{len(chunks)}"
     )
 
-    # ---------------------------------------------------------
-    # MAP
-    # ---------------------------------------------------------
+    # -----------------------------------------------------
+    # Select representative content
+    # -----------------------------------------------------
 
-    partial_summaries = _map_summaries(
-        llm,
-        chunks,
+    selected_chunks = (
+        _select_representative_chunks(
+            chunks
+        )
     )
+
+    print(
+        f"[summary] Selected "
+        f"{len(selected_chunks)} "
+        f"representative chunks."
+    )
+
+    # -----------------------------------------------------
+    # Create maximum 2 map batches
+    # -----------------------------------------------------
+
+    batches = _create_map_batches(
+        selected_chunks
+    )
+
+    print(
+        f"[summary] Using "
+        f"{len(batches)} map calls."
+    )
+
+    # -----------------------------------------------------
+    # MAP
+    # -----------------------------------------------------
+
+    partial_summaries = []
+
+    for index, batch in enumerate(
+        batches,
+        start=1,
+    ):
+
+        prompt = f"""
+Summarize the following section of a document.
+
+Focus on:
+- Main topic
+- Important facts
+- Key findings
+- Important numbers and dates
+- Important conclusions
+
+Use only the supplied document content.
+Do not invent information.
+
+DOCUMENT SECTION:
+
+{batch}
+"""
+
+        print(
+            f"[summary] Map call "
+            f"{index}/{len(batches)}"
+        )
+
+        result = invoke_with_retry(
+            llm,
+            prompt,
+        )
+
+        summary = result.content.strip()
+
+        if summary:
+            partial_summaries.append(
+                summary
+            )
 
     if not partial_summaries:
 
@@ -399,19 +317,29 @@ def summarize_document(
             "Unable to generate a summary."
         )
 
-    print(
-        f"[summary] Generated "
-        f"{len(partial_summaries)} partial summaries."
+    # =====================================================
+    # FINAL REDUCE
+    # =====================================================
+
+    combined = "\n\n".join(
+        partial_summaries
     )
 
-    
-    final_summary = _reduce_summaries(
+    print(
+        "[summary] Final reduce call."
+    )
+
+    prompt = REDUCE_SUMMARY_PROMPT.format(
+        text=combined
+    )
+
+    result = invoke_with_retry(
         llm,
-        partial_summaries,
+        prompt,
     )
 
     print(
-        "[summary] Document summary completed."
+        "[summary] Summary completed."
     )
 
-    return final_summary
+    return result.content.strip()
