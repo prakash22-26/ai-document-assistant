@@ -198,8 +198,8 @@ def _extract_wait_seconds(message: str) -> float | None:
 def invoke_with_retry(
     llm,
     prompt: str,
-    max_retries: int = 2,
-    base_delay: float = 5.0,
+    max_retries: int = 1,
+    base_delay: float = 2.0,
 ):
     """
     Invoke the LLM with rate-limit-aware retry handling.
@@ -261,7 +261,8 @@ def invoke_with_retry(
                 f"before retry "
                 f"{attempt + 1}/{max_retries}..."
             )
-
+            if wait_seconds > 30:
+                raise
             time.sleep(wait_seconds)
 
     if last_exception:
