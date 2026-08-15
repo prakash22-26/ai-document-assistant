@@ -106,8 +106,7 @@ def main():
         ):
 
             with st.spinner(
-                "Extracting text, chunking, embedding, "
-                "and summarizing..."
+                "Processing..."
             ):
 
                 try:
